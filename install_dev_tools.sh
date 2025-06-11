@@ -2,8 +2,8 @@
 apt-get update
 
 # install docker
-if ! which docker &> /dev/null; then
-  apt-get install \
+if ! which docker; then
+  apt-get install -y \
       ca-certificates \
       curl \
       gnupg \
@@ -19,22 +19,28 @@ if ! which docker &> /dev/null; then
 fi
 
 # install docker compose
-if ! which docker-compose &> /dev/null; then
+if ! which docker-compose; then
   apt-get install -y docker-compose
   else
     echo "Docker compose is already installed"
 fi
 
 # install python 3.9
-if ! which python3.9 &> /dev/null; then
+if ! which python3; then
   apt-get install -y python3.9
   else
     echo "Python 3.9 is already installed"
 fi
 
+if ! which pip3; then
+  curl -sS https://bootstrap.pypa.io/get-pip.py | python3
+else
+  echo "pip for Python 3.9 is already installed"
+fi
+
 # install django
-if ! which django-admin &> /dev/null; then
-  pip install -y django
+if ! which django-admin; then
+  pip install django
   else
     echo "Django is already installed"
 fi
