@@ -9,7 +9,7 @@
 
 1. Make sure you are using ubuntu OS
 2. Clone the repo, checkout branch `lesson-3`
-3. Run `chmod +x install_dev_tools.sh`
+3. Run `chmod +x install_dev_tools.sh` to make the script executable
 4. Run and execute the script `./install_dev_tools.sh`
 
 ```shell
