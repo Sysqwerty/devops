@@ -9,17 +9,22 @@
 
 1. Make sure you are using ubuntu OS
 2. Clone the repo, checkout branch `lesson-3`
-3. Run `chmod +x install_dev_tools.sh` to make the script executable
-4. Run and execute the script `./install_dev_tools.sh`
+3. Make the script executable
 
 ```shell
-./install_dev_tools.sh
+  chmod u+x install_dev_tools.sh
 ```
 
-If you don't have git installed on your ubuntu OS, run
+4. Execute the script
 
 ```shell
-apt-get install git
+  ./install_dev_tools.sh
+```
+
+If you don't have `git` installed on your ubuntu OS, run
+
+```shell
+  apt update && apt install -y git
 ```
 
 The script additionally checks if the dependencies are already installed.
