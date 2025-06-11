@@ -38,10 +38,3 @@ if ! which django-admin &> /dev/null; then
   else
     echo "Django is already installed"
 fi
-
-# install git
-if ! which git &> /dev/null; then
-  sudo apt-get install git
-  else
-    echo "Git is already installed"
-fi
