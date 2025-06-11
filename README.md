@@ -7,9 +7,10 @@
 
 # Steps:
 
-1. Make sure you are using ubuntu OS
-2. Clone the repo, checkout branch `lesson-3`
-3. Make the script executable
+1. Make sure you are using ubuntu OS and the `root` user
+2. Clone the repo
+3. Checkout branch `lesson-3`
+4. Make the script executable
 
 ```shell
   chmod u+x install_dev_tools.sh
