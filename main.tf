@@ -21,16 +21,29 @@ module "ecr" {
 
   repository_name      = "ecr-repo-18062025214500"    # Ім'я репозиторію
   scan_on_push         = true                         # true → увімкнути
-  image_tag_mutability = "MUTABLE"                    # IMMUTABLE заблокує зміну існуючих тегів; MUTABLE дозволяє перезапис
+  image_tag_mutability = "MUTABLE"
+  # IMMUTABLE заблокує зміну існуючих тегів; MUTABLE дозволяє перезапис
 
   # власна policy (публічний read‑only доступ)
-   repository_policy = jsonencode({
-     Version = "2012-10-17",
-     Statement = [{
-       Sid      = "PublicRead",
-       Effect   = "Allow",
-       Principal = "*",
-       Action   = ["ecr:GetDownloadUrlForLayer","ecr:BatchGetImage","ecr:BatchCheckLayerAvailability"]
-     }]
-   })
+  repository_policy = jsonencode({
+    Version   = "2012-10-17",
+    Statement = [
+      {
+        Sid       = "PublicRead",
+        Effect    = "Allow",
+        Principal = "*",
+        Action    = ["ecr:GetDownloadUrlForLayer", "ecr:BatchGetImage", "ecr:BatchCheckLayerAvailability"]
+      }
+    ]
+  })
+}
+
+module "eks" {
+  source        = "./modules/eks"
+  cluster_name  = "eks-cluster-demo"            # Назва кластера
+  subnet_ids    = module.vpc.public_subnets     # ID підмереж
+  instance_type = "t2.micro"                    # Тип інстансів
+  desired_size  = 1                             # Бажана кількість нодів
+  max_size      = 2                             # Максимальна кількість нодів
+  min_size      = 1                             # Мінімальна кількість нодів
 }
