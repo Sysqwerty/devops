@@ -37,10 +37,10 @@ output "internet_gateway_id" {
   value       = module.vpc.internet_gateway_id
 }
 
-output "nat_gateway_id" {
-  description = "ID NAT Gateway"
-  value       = module.vpc.nat_gateway_id
-}
+#output "nat_gateway_id" {
+#  description = "ID NAT Gateway"
+#  value       = module.vpc.nat_gateway_id
+#}
 
 #-------------ECR-----------------
 

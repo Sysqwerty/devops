@@ -49,20 +49,20 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# Створюємо Elastic IP для NAT-інстансу
-resource "aws_eip" "nat_eip" {
-  tags = {
-    Name = "${var.vpc_name}-nat-eip"
-  }
-}
+## Створюємо Elastic IP для NAT-інстансу
+#resource "aws_eip" "nat_eip" {
+#  tags = {
+#    Name = "${var.vpc_name}-nat-eip"
+#  }
+#}
 
-# Створюємо NAT-інстанс
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public[0].id  # NAT Gateway повинен бути в публічній підмережі
-  tags = {
-    Name = "${var.vpc_name}-nat-gw"
-  }
-
-  depends_on = [aws_internet_gateway.igw]
-}
+## Створюємо NAT-інстанс
+#resource "aws_nat_gateway" "nat" {
+#  allocation_id = aws_eip.nat_eip.id
+#  subnet_id     = aws_subnet.public[0].id  # NAT Gateway повинен бути в публічній підмережі
+#  tags = {
+#    Name = "${var.vpc_name}-nat-gw"
+#  }
+#
+#  depends_on = [aws_internet_gateway.igw]
+#}

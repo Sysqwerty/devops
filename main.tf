@@ -21,8 +21,6 @@ module "ecr" {
 
   repository_name      = "ecr-repo-18062025214500"    # Ім'я репозиторію
   scan_on_push         = true                         # true → увімкнути
-  image_tag_mutability = "MUTABLE"
-  # IMMUTABLE заблокує зміну існуючих тегів; MUTABLE дозволяє перезапис
 
   # власна policy (публічний read‑only доступ)
   repository_policy = jsonencode({
