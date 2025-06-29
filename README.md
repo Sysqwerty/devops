@@ -1,5 +1,9 @@
 # Steps
 
+!!! Make sure you have installed `Terraform` and `Helm` on your system.
+
+## Terraform
+
 Ініціалізація Terraform:
 
 ```bash
@@ -18,10 +22,57 @@ terraform plan
 terraform apply
 ```
 
-Видалення ресурсів:
+Завантажити django image на новостворений ECR-репозиторій:
+
+```bash
+docker tag django_image:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
+docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
+```
+
+where `django_image:latest` your django image name that already exists in your local machine.
+
+Replace $AWS_ACCOUNT_ID, $AWS_REGION, and $ECR_REPOSITORY with your own values.
+
+## Helm
+
+Застосування Helm:
+
+```bash
+cd charts/django-app
+helm install my-django .
+```
+
+where `my-django` is your helm chart name.
+
+# Видалення ресурсів:
+
+Kubernetes (PODs, Services, Deployments etc.)
+```bash
+helm uninstall my-django
+```
+
+where `my-django` is your helm chart name.
+
+Terraform (EKS, VPC, ECR etc.)
 
 ```bash
 terraform destroy
+```
+
+# Додаткова інформація:
+
+Якщо ви хочете оновити helm chart:
+
+```bash
+helm upgrade my-django .
+```
+
+Якщо ви хочете оновити terraform:
+
+```bash
+terraform init -upgrade
+terraform plan
+terraform apply
 ```
 
 # Опис модулів terraform
@@ -43,40 +94,7 @@ terraform destroy
 Модуль для створення ECR-репозиторію.
 В модулі створюється репозиторій ECR, налаштовується автоматичне сканування security-вразливостей під час push.
 
----
-Всі модулі підключаються в `main.tf`
-Головний output в `outputs.tf` збирає outputs всіх модулей 
+## eks
 
-# Алгоритм відновлення інфраструктури після terraform destroy
-
-1. Закоментуйте бекенд у backend.tf
-
-Відкрийте файл `backend.tf` і закоментуйте вміст
-
-2. Створіть S3 і DynamoDB знову
-
-Застосуйте модуль для S3 і DynamoDB, щоб відновити стейт-бекенд:
-
-```bash
-terraform apply
-```
-
-Це створить:
-
-- S3-бакет для збереження стейтів
-- DynamoDB-таблицю для блокування стейтів
-
-3. Додайте бекенд знову
-
-Розкоментуйте вміст `backend.tf`, щоб Terraform знав, де зберігати стейт:
-
-4. Повторно ініціалізуйте бекенд
-
-Виконайте команду terraform init з параметром для повторного підключення бекенду:
-
-```bash
-terraform init -reconfigure
-```
-
-Команда `reconfigure` в Terraform використовується для примусового підключення до нового бекенду та синхронізації стану,
-забезпечуючи актуальність і цілісність інфраструктурного файлу стану.
+Модуль для створення EKS-кластера.
+В модулі створюється EKS-кластер, налаштовується автоматичне сканування security-вразливостей під час push.

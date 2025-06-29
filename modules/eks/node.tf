@@ -4,20 +4,18 @@ resource "aws_iam_role" "nodes" {
   name = "${var.cluster_name}-eks-nodes"
 
   # Політика, що дозволяє EC2 асумувати роль
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Action    = "sts:AssumeRole"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
       }
-    }
-  ]
-}
-POLICY
+    ]
+  })
 }
 
 # Прив'язка політики для EKS Worker Nodes
@@ -54,7 +52,7 @@ resource "aws_eks_node_group" "general" {
 
   # Тип EC2-інстансів для вузлів
   capacity_type  = "ON_DEMAND"
-  instance_types = ["${var.instance_type}"]
+  instance_types = [var.instance_type]
 
   # Конфігурація масштабування
   scaling_config {

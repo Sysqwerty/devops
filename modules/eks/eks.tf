@@ -4,20 +4,18 @@ resource "aws_iam_role" "eks" {
   name = "${var.cluster_name}-eks-cluster"
 
   # Політика, яка дозволяє сервісу EKS «асумувати» цю IAM-роль
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "sts:AssumeRole",       # Дозволяє AssumeRole (використання ролі)
-      "Principal": {
-        "Service": "eks.amazonaws.com"  # Дозволено для сервісу EKS
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Action    = "sts:AssumeRole"
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
       }
-    }
-  ]
-}
-POLICY
+    ]
+  })
 }
 
 # Прив'язка IAM-ролі до політики AmazonEKSClusterPolicy

@@ -3,7 +3,7 @@
 .vscode
 
 # Terraform
+.terraform/
 *.tfvars
-terraform.tfstate
-terraform.tfstate.backup
-terraform.tfstate.lock.info
+*terraform.tfstate*
+*tarraform.lock.hcl

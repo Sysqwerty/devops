@@ -1,7 +1,7 @@
 # Створюємо S3-бакет
 resource "aws_s3_bucket" "terraform_state" {
   bucket        = var.bucket_name
-  force_destroy = true
+  force_destroy = var.force_delete
 
   tags = {
     Name        = "Terraform State Bucket"
