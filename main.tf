@@ -20,11 +20,11 @@ provider "aws" {
 }
 
 # Підключаємо модуль для S3 та DynamoDB
-#module "s3_backend" {
-#  source      = "./modules/s3-backend"                    # Шлях до модуля
-#  bucket_name = "terraform-state-bucket-18062025214500"   # Ім'я S3-бакета
-#  table_name  = "use_lockfile"                            # Ім'я DynamoDB
-#}
+module "s3_backend" {
+  source      = "./modules/s3-backend"                    # Шлях до модуля
+  bucket_name = "terraform-state-bucket-18062025214500"   # Ім'я S3-бакета
+  table_name  = "use_lockfile"                            # Ім'я DynamoDB
+}
 
 # Підключаємо модуль для VPC
 module "vpc" {
@@ -70,13 +70,13 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.eks.token
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = data.aws_eks_cluster.eks.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.eks.token
-  }
-}
+#provider "helm" {
+#  kubernetes {
+#    host                   = data.aws_eks_cluster.eks.endpoint
+#    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+#    token                  = data.aws_eks_cluster_auth.eks.token
+#  }
+#}
 
 
 module "jenkins" {
