@@ -1,2 +1,3 @@
-github_user = "github-username"
-github_pat = "github-pat-password"
+github_user     = "user"
+github_pat      = "password"
+github_repo_url = "https://github.com/<repo>.git"

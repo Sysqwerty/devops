@@ -28,3 +28,8 @@ variable "github_user" {
   description = "GitHub username"
   type        = string
 }
+
+variable "github_repo_url" {
+  description = "GitHub repository URL"
+  type        = string
+}
