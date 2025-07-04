@@ -20,11 +20,11 @@ provider "aws" {
 }
 
 # Підключаємо модуль для S3 та DynamoDB
-module "s3_backend" {
-  source      = "./modules/s3-backend"                    # Шлях до модуля
-  bucket_name = "terraform-state-bucket-18062025214500"   # Ім'я S3-бакета
-  table_name  = "use_lockfile"                            # Ім'я DynamoDB
-}
+#module "s3_backend" {
+#  source      = "./modules/s3-backend"                    # Шлях до модуля
+#  bucket_name = "terraform-state-bucket-18062025214500"   # Ім'я S3-бакета
+#  table_name  = "use_lockfile"                            # Ім'я DynamoDB
+#}
 
 # Підключаємо модуль для VPC
 module "vpc" {
