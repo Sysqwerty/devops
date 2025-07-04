@@ -1,3 +1,11 @@
+# IDE
+/.idea
+.vscode
+
 .env
-.idea
-/django/venv/
+
+# Terraform
+.terraform/
+*.tfvars
+*terraform.tfstate*
+.terraform.lock.hcl
