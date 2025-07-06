@@ -4,10 +4,14 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "eks_cluster_name" {
+variable "cluster_name" {
   description = "Name of the EKS cluster"
   type        = string
   default     = "eks-cluster-alex"
+}
+
+variable "vpc_name" {
+  default = "vpc-alex"
 }
 
 variable "instance_type" {
@@ -16,7 +20,7 @@ variable "instance_type" {
   default     = "t2.medium"
 }
 
-variable "ecr_repository_name" {
+variable "repository_name" {
   description = "Name of the ECR repository"
   type        = string
   default     = "ecr-repo-18062025214500"
