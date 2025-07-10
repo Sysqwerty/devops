@@ -18,6 +18,8 @@ variable "oidc_provider_url" {
   type = string
 }
 
+// github credentials
+
 variable "github_pat" {
   description = "GitHub Personal Access Token"
   type        = string

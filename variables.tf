@@ -26,6 +26,8 @@ variable "repository_name" {
   default     = "ecr-repo-18062025214500"
 }
 
+// github credentials
+
 variable "github_pat" {
   description = "GitHub Personal Access Token"
   type        = string
