@@ -22,9 +22,9 @@ spec:
   }
 
   environment {
-    ECR_REGISTRY = "397114334021.dkr.ecr.us-west-2.amazonaws.com"
-    IMAGE_NAME   = "app"
-    IMAGE_TAG    = "latest"
+    ECR_REGISTRY = "804054839611.dkr.ecr.eu-central-1.amazonaws.com"
+    IMAGE_NAME   = "ecr-repo-18062025214500"
+    IMAGE_TAG    = "v1.0.${BUILD_NUMBER}"
   }
 
   stages {
