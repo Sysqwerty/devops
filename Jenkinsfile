@@ -25,6 +25,9 @@ spec:
     ECR_REGISTRY = "804054839611.dkr.ecr.eu-central-1.amazonaws.com"
     IMAGE_NAME   = "ecr-repo-18062025214500"
     IMAGE_TAG    = "v1.0.${BUILD_NUMBER}"
+
+    COMMIT_EMAIL = "jenkins@localhost"
+    COMMIT_NAME  = "jenkins"
   }
 
   stages {
@@ -40,6 +43,29 @@ spec:
               --insecure \\
               --skip-tls-verify
           '''
+        }
+      }
+    }
+
+    stage('Update Chart Tag in Git') {
+      steps {
+        container('git') {
+          withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: ${github_user}, passwordVariable: ${github_pat})]) {
+            sh '''
+              git clone https://${github_user}:${github_pat}@github.com/${github_user}/devops.git
+              git checkout -b lesson-9
+              cd devops/charts/django-app
+
+              sed -i "s/tag: .*/tag: $IMAGE_TAG/" values.yaml
+
+              git config user.email "$COMMIT_EMAIL"
+              git config user.name "$COMMIT_NAME"
+
+              git add values.yaml
+              git commit -m "Update image tag to $IMAGE_TAG"
+              git push origin lesson-9
+            '''
+          }
         }
       }
     }
