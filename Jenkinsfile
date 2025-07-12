@@ -17,6 +17,11 @@ spec:
         - sleep
       args:
         - 99d
+     # Lightweight container that has git + coreutils
+    - name: git
+      image: alpine/git:2.44.0
+      command: ["cat"]       # keep it idle so Jenkins can exec into it
+      tty: true
 """
     }
   }
