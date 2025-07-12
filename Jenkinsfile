@@ -56,16 +56,16 @@ spec:
     stage('Update Chart Tag in Git') {
       steps {
         container('git') {
-        withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
-    //      withCredentials([
-    //usernamePassword(
-    //    credentialsId: 'github-token',
-    //    usernameVariable: 'TF_VAR_github_user',   // becomes $TF_VAR_github_user
-    //    passwordVariable: 'TF_VAR_github_pat'     // becomes $TF_VAR_github_pat
-    //)
-//]) {
+    //    withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
+          withCredentials([
+    usernamePassword(
+        credentialsId: 'github-token',
+        usernameVariable: 'USERNAME',
+        passwordVariable: 'PASSWORD'
+    )
+]) {
             sh '''
-              git clone https://$GITHUB_USER:$GITHUB_PAT@github.com/$GITHUB_USER/devops.git
+              git clone https://USERNAME:PASSWORD@github.com/USERNAME/devops.git
               git checkout -b lesson-10
               cd devops/charts/django-app
 
