@@ -87,8 +87,6 @@ resource "helm_release" "jenkins" {
   version          = "5.8.27"
   create_namespace = false
 
-  values = [
-    file("${path.module}/values.yaml")
-  ]
+  values = [file("${path.module}/values.yaml")]
 }
 
