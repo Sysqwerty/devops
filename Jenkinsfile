@@ -57,15 +57,10 @@ spec:
       steps {
         container('git') {
     //    withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
-          withCredentials([
-    usernamePassword(
-        credentialsId: 'github-token',
-        usernameVariable: 'USERNAME',
-        passwordVariable: 'PASSWORD'
-    )
-]) {
+          withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
-              git clone https://$USERNAME:$PASSWORD@github.com/$USERNAME/devops.git
+              echo $USERNAME
+              git clone https://$USERNAME:$PASSWORD@github.com/Sysqwerty/devops.git
               git checkout -b lesson-10
               cd devops/charts/django-app
 
