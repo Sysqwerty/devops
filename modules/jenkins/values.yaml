@@ -1,13 +1,11 @@
 controller:
   admin:
     username: admin
-    password: admin123
+    password: admin123        # ← consider a Secret instead
 
   serviceType: LoadBalancer
-  servicePort: 80
-  service:
-    port: 80
-    targetPort: 8080
+  servicePort: 80             # external LB port
+  targetPort: 8080            # container port Jenkins listens on
 
   resources:
     limits:
@@ -16,11 +14,6 @@ controller:
     requests:
       cpu: "250m"
       memory: "512Mi"
-
-  persistentVolume:
-    enabled: true
-    storageClass: "ebs-sc"
-    size: 10Gi
 
   installPlugins:
     - kubernetes:latest
@@ -66,7 +59,7 @@ controller:
                 }
                 steps {
                   dsl {
-                    text('''
+                    text: |
                       pipelineJob("goit-django-docker") {
                         definition {
                           cpsScm {
@@ -82,7 +75,14 @@ controller:
                           }
                         }
                       }
-                    ''')
                   }
                 }
               }
+
+# -------------------------------------------------
+# Persistence moved to chart-level block
+# -------------------------------------------------
+persistence:
+  enabled: true
+  storageClass: "ebs-sc"
+  size: "10Gi"
