@@ -61,8 +61,9 @@ spec:
             sh '''
               echo $USERNAME
               git clone https://Sysqwerty:$PASSWORD@github.com/Sysqwerty/devops.git
+              cd devops
               git checkout lesson-10
-              cd devops/charts/django-app
+              cd charts/django-app
 
               sed -i "s/tag: .*/tag: $IMAGE_TAG/" values.yaml
 
