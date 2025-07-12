@@ -65,7 +65,7 @@ spec:
     )
 ]) {
             sh '''
-              git clone https://USERNAME:PASSWORD@github.com/USERNAME/devops.git
+              git clone https://$USERNAME:$PASSWORD@github.com/$USERNAME/devops.git
               git checkout -b lesson-10
               cd devops/charts/django-app
 
