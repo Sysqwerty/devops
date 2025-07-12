@@ -56,7 +56,6 @@ spec:
     stage('Update Chart Tag in Git') {
       steps {
         container('git') {
-    //    withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
           withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
               echo $USERNAME
