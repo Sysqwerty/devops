@@ -65,7 +65,7 @@ spec:
     )
 ]) {
             sh '''
-              git clone https://${TF_VAR_github_user}:${TF_VAR_github_pat}@github.com/${TF_VAR_github_user}/devops.git
+              git clone https://$TF_VAR_github_user:$TF_VAR_github_pat@github.com/$TF_VAR_github_user/devops.git
               git checkout -b lesson-10
               cd devops/charts/django-app
 
