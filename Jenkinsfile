@@ -57,7 +57,7 @@ spec:
       steps {
         container('git') {
     //    withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
-          withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          withCredentials([usernamePassword(credentialsId: 'github-token', username: 'USERNAME', password: 'PASSWORD')]) {
             sh '''
               echo $PASSWORD
               git clone https://Sysqwerty:$PASSWORD@github.com/Sysqwerty/devops.git
