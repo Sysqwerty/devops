@@ -59,8 +59,8 @@ spec:
     //    withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: GITHUB_USER, passwordVariable: GITHUB_PAT)]) {
           withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
-              echo $USERNAME
-              git clone https://$USERNAME:$PASSWORD@github.com/Sysqwerty/devops.git
+              echo $PASSWORD
+              git clone https://Sysqwerty:$PASSWORD@github.com/Sysqwerty/devops.git
               git checkout -b lesson-10
               cd devops/charts/django-app
 
