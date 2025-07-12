@@ -30,6 +30,9 @@ controller:
     name: jenkins-sa
     create: false
 
+  ## ──────────────────────────────────────────────────────────
+  ##  Jenkins Configuration-as-Code (JCasC)
+  ## ──────────────────────────────────────────────────────────
   JCasC:
     configScripts:
       credentials: |
@@ -80,14 +83,17 @@ controller:
               }
 
 # -------------------------------------------------
-# Persistence moved to chart-level block
+# Persistence
 # -------------------------------------------------
 persistence:
   enabled: true
   storageClass: "ebs-sc"
   size: "10Gi"
 
-github:                       # <-- add this block so the
-  user:  ${var.github_user}   #      values come in from Terraform
-  pat:   ${var.github_pat}
-  repoUrl: ${var.github_repo_url}
+# ─────────────────────────────────────────────────────────────
+# Variables injected by Terraform (templatefile)
+# ─────────────────────────────────────────────────────────────
+github:
+  user:    ${github_user}
+  pat:     ${github_pat}
+  repoUrl: ${github_repo_url}
