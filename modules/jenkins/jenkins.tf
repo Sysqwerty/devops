@@ -101,7 +101,7 @@ resource "helm_release" "jenkins" {
   atomic  = true              # Helm або ставить chart повністю, або відкочується
   cleanup_on_fail = true      # при невдалій інсталяції Helm сам прибере release
 
-  # give Jenkins up to 10 min to become Ready (default is only 5 min)
-  timeout = 600
+#  # give Jenkins up to 10 min to become Ready (default is only 5 min)
+#  timeout = 600
 }
 

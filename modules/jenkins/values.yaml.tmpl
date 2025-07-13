@@ -39,7 +39,7 @@ controller:
     enabled: true
     defaultConfig: true
     configScripts:
-      credentials.yaml: |                 # <-- creates github-token
+      credentials: |                 # <-- creates github-token
         credentials:
           system:
             domainCredentials:
@@ -50,7 +50,7 @@ controller:
                       username: {{ .Values.github.user | quote }}
                       password: {{ .Values.github.pat  | quote }}
                       description: GitHub PAT injected by Terraform
-      seed-job.yaml: |                    # <-- simple example seed job
+      seed-job: |                    # <-- simple example seed job
         jobs:
           - script: >
               job('seed-job') {
