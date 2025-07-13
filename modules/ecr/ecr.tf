@@ -1,16 +1,16 @@
 # ECR Repository
 resource "aws_ecr_repository" "ecr" {
-  name                 = var.repository_name           # Ім’я репозиторію
-  force_delete         = var.force_delete              # Дозволяє видаляти репо разом з образами
-  image_tag_mutability = var.image_tag_mutability      # IMMUTABLE або MUTABLE
+  name                 = var.repository_name      # Ім’я репозиторію
+  force_delete         = var.force_delete         # Дозволяє видаляти репо разом з образами
+  image_tag_mutability = var.image_tag_mutability # IMMUTABLE або MUTABLE
 
   # Автоматичне сканування security‑вразливостей під час push
   image_scanning_configuration {
-    scan_on_push = var.scan_on_push                    # true → увімкнути
+    scan_on_push = var.scan_on_push # true → увімкнути
   }
 
   encryption_configuration {
-    encryption_type = "AES256"                         # Або "KMS" + key_id, якщо потрібен свій ключ
+    encryption_type = "AES256" # Або "KMS" + key_id, якщо потрібен свій ключ
   }
 
   tags = {
@@ -24,11 +24,11 @@ data "aws_caller_identity" "current" {}
 
 locals {
   default_policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowPushPullWithinAccount"
-        Effect    = "Allow"
+        Sid    = "AllowPushPullWithinAccount"
+        Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
         }

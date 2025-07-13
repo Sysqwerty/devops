@@ -5,11 +5,11 @@ resource "aws_iam_role" "nodes" {
 
   # Політика, що дозволяє EC2 асумувати роль
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
-        Action    = "sts:AssumeRole"
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
         Principal = {
           Service = "ec2.amazonaws.com"
         }
@@ -54,8 +54,8 @@ resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core" {
 resource "aws_iam_policy" "ebs_csi_custom_policy" {
   name        = "AmazonEBSCSICustomPolicy-alex"
   description = "Custom policy for EBS CSI driver"
-  policy      = jsonencode({
-    Version   = "2012-10-17",
+  policy = jsonencode({
+    Version = "2012-10-17",
     Statement = [
       {
         Effect = "Allow",
@@ -101,19 +101,19 @@ resource "aws_eks_node_group" "general" {
 
   # Конфігурація масштабування
   scaling_config {
-    desired_size = var.desired_size  # Бажана кількість вузлів
-    max_size     = var.max_size      # Максимальна кількість вузлів
-    min_size     = var.min_size      # Мінімальна кількість вузлів
+    desired_size = var.desired_size # Бажана кількість вузлів
+    max_size     = var.max_size     # Максимальна кількість вузлів
+    min_size     = var.min_size     # Мінімальна кількість вузлів
   }
 
   # Конфігурація оновлення вузлів
   update_config {
-    max_unavailable = 1  # Максимальна кількість вузлів, які можна оновлювати одночасно
+    max_unavailable = 1 # Максимальна кількість вузлів, які можна оновлювати одночасно
   }
 
   # Додає мітки до вузлів
   labels = {
-    role = "general"  # Тег "role" зі значенням "general"
+    role = "general" # Тег "role" зі значенням "general"
   }
 
   # Залежності для створення Node Group

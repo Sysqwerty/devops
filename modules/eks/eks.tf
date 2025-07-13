@@ -5,11 +5,11 @@ resource "aws_iam_role" "eks" {
 
   # Політика, яка дозволяє сервісу EKS «асумувати» цю IAM-роль
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
-        Action    = "sts:AssumeRole"
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
         Principal = {
           Service = "eks.amazonaws.com"
         }
@@ -37,15 +37,15 @@ resource "aws_eks_cluster" "eks" {
 
   # Налаштування мережі (VPC)
   vpc_config {
-    endpoint_private_access = true                # Включає приватний доступ до API-сервера
-    endpoint_public_access  = true                # Включає публічний доступ до API-сервера
-    subnet_ids              = var.subnet_ids      # Список підмереж, де буде працювати EKS
+    endpoint_private_access = true           # Включає приватний доступ до API-сервера
+    endpoint_public_access  = true           # Включає публічний доступ до API-сервера
+    subnet_ids              = var.subnet_ids # Список підмереж, де буде працювати EKS
   }
 
   # Налаштування доступу до EKS-кластера
   access_config {
-    authentication_mode                         = "API"  # Автентифікація через API
-    bootstrap_cluster_creator_admin_permissions = true   # Надає адміністративні права користувачу, який створив кластер
+    authentication_mode                         = "API" # Автентифікація через API
+    bootstrap_cluster_creator_admin_permissions = true  # Надає адміністративні права користувачу, який створив кластер
   }
 
   # Залежність від IAM-політики для ролі EKS

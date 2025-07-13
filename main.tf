@@ -28,30 +28,30 @@ provider "aws" {
 
 # Підключаємо модуль для VPC
 module "vpc" {
-  source             = "./modules/vpc"                                      # Шлях до модуля VPC
-  vpc_cidr_block     = "10.0.0.0/16"                                        # CIDR блок для VPC
-  public_subnets     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]        # Публічні підмережі
-  private_subnets    = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]        # Приватні підмережі
-  availability_zones = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]  # Зони доступності
-  vpc_name           = var.vpc_name                                         # Ім'я VPC
+  source             = "./modules/vpc"                                     # Шлях до модуля VPC
+  vpc_cidr_block     = "10.0.0.0/16"                                       # CIDR блок для VPC
+  public_subnets     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]       # Публічні підмережі
+  private_subnets    = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]       # Приватні підмережі
+  availability_zones = ["eu-central-1a", "eu-central-1b", "eu-central-1c"] # Зони доступності
+  vpc_name           = var.vpc_name                                        # Ім'я VPC
 }
 
 # Підключаємо модуль для ECR
 module "ecr" {
   source = "./modules/ecr"
 
-  repository_name = var.repository_name          # Ім'я репозиторію
-  scan_on_push    = true                         # true → увімкнути
+  repository_name = var.repository_name # Ім'я репозиторію
+  scan_on_push    = true                # true → увімкнути
 }
 
 module "eks" {
   source        = "./modules/eks"
-  cluster_name  = var.cluster_name              # Назва кластера
-  subnet_ids    = module.vpc.public_subnets     # ID підмереж
-  instance_type = var.instance_type             # Тип інстансів
-  desired_size  = 2                             # Бажана кількість нодів
-  max_size      = 3                             # Максимальна кількість нодів
-  min_size      = 1                             # Мінімальна кількість нодів
+  cluster_name  = var.cluster_name          # Назва кластера
+  subnet_ids    = module.vpc.public_subnets # ID підмереж
+  instance_type = var.instance_type         # Тип інстансів
+  desired_size  = 2                         # Бажана кількість нодів
+  max_size      = 3                         # Максимальна кількість нодів
+  min_size      = 1                         # Мінімальна кількість нодів
 }
 
 data "aws_eks_cluster" "eks" {
@@ -88,7 +88,7 @@ module "jenkins" {
   github_user       = var.github_user
   github_repo_url   = var.github_repo_url
   depends_on        = [module.eks]
-  providers         = {
+  providers = {
     helm       = helm
     kubernetes = kubernetes
   }
