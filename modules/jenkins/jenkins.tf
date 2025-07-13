@@ -87,12 +87,6 @@ resource "helm_release" "jenkins" {
   version          = "5.8.27"
   create_namespace = false
 
-  values = [
-    templatefile("${path.module}/values.yaml.tmpl", {
-      github_user     = var.github_user
-      github_pat      = var.github_pat      # << sensitive var flows in here
-      github_repo_url = var.github_repo_url
-    })
-  ]
+  values = [file("${path.module}/values.yaml")]
 }
 
