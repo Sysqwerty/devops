@@ -1,8 +1,4 @@
 terraform {
-  experiments = [module_variable_optional_attrs]
-}
-
-terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
