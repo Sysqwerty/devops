@@ -2,9 +2,6 @@
 # modules/jenkins/values.yaml.tmpl
 # ─────────────────────────────────────────────────────────────
 controller:
-  sidecars:
-    configAutoReload:
-      enabled: true                # потрібен для рендеру JCasC
   admin:                 # keep a simple admin login; change the pwd anytime
     username: admin
     password: admin123
@@ -31,6 +28,10 @@ controller:
   serviceAccount:
     name: jenkins-sa                 # SA is created elsewhere
 
+  sidecars:
+    configAutoReload:
+      enabled: true                # потрібен для рендеру JCasC
+
   # ──────────────────────────────────────────────
   # Jenkins Configuration-as-Code (JCasC) section
   # ──────────────────────────────────────────────
@@ -38,7 +39,7 @@ controller:
     enabled: true
     defaultConfig: true
     configScripts:
-      credentials: |                 # <-- creates github-token
+      credentials.yaml: |                 # <-- creates github-token
         credentials:
           system:
             domainCredentials:
@@ -49,11 +50,10 @@ controller:
                       username: {{ .Values.github.user | quote }}
                       password: {{ .Values.github.pat  | quote }}
                       description: GitHub PAT injected by Terraform
-      seed-job: |                    # <-- simple example seed job
+      seed-job.yaml: |                    # <-- simple example seed job
         jobs:
           - script: >
               job('seed-job') {
-                description('Job to generate pipeline for Django project')
                 scm {
                   git {
                     remote {
