@@ -1,18 +1,19 @@
-# ─────────────────────────────────────────────────────────────
-# modules/jenkins/values.yaml.tmpl
-# ─────────────────────────────────────────────────────────────
 controller:
-  admin:                 # keep a simple admin login; change the pwd anytime
+  admin:
     username: admin
-    password: admin123
+    password: admin123        # ← consider a Secret instead
 
   serviceType: LoadBalancer
-  servicePort: 80
-  targetPort: 8080
+  servicePort: 80             # external LB port
+  targetPort: 8080            # container port Jenkins listens on
 
   resources:
-    limits:   {cpu: "500m", memory: "1Gi"}
-    requests: {cpu: "250m", memory: "512Mi"}
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
 
   installPlugins:
     - kubernetes:latest
@@ -26,16 +27,15 @@ controller:
     - job-dsl:latest
 
   serviceAccount:
-    name: jenkins-sa                 # SA is created elsewhere
+    name: jenkins-sa
+    create: false
 
-  # ──────────────────────────────────────────────
-  # Jenkins Configuration-as-Code (JCasC) section
-  # ──────────────────────────────────────────────
-  jcasc:
-    enabled: true
-    defaultConfig: true
+  ## ──────────────────────────────────────────────────────────
+  ##  Jenkins Configuration-as-Code (JCasC)
+  ## ──────────────────────────────────────────────────────────
+  JCasC:
     configScripts:
-      credentials: |                 # <-- creates github-token
+      credentials: |
         credentials:
           system:
             domainCredentials:
@@ -44,9 +44,9 @@ controller:
                       scope: GLOBAL
                       id: github-token
                       username: {{ .Values.github.user | quote }}
-                      password: {{ .Values.github.pat  | quote }}
-                      description: GitHub PAT injected by Terraform
-      seed-job: |                    # <-- simple example seed job
+                      password: {{ .Values.github.pat | quote }}
+                      description: GitHub PAT
+      seed-job: |
         jobs:
           - script: >
               job('seed-job') {
@@ -82,16 +82,16 @@ controller:
                 }
               }
 
-# ─────────────────────────────────────────────────────────────
-# EBS persistence
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------
+# Persistence
+# -------------------------------------------------
 persistence:
   enabled: true
-  storageClass: ebs-sc
-  size: 10Gi
+  storageClass: "ebs-sc"
+  size: "10Gi"
 
 # ─────────────────────────────────────────────────────────────
-#  Variables that Terraform will fill in
+# Variables injected by Terraform (templatefile)
 # ─────────────────────────────────────────────────────────────
 github:
   user:    ${github_user}

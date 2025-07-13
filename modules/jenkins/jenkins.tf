@@ -79,15 +79,6 @@ resource "aws_iam_role_policy" "jenkins_ecr_policy" {
   })
 }
 
-# ----------  Helm release  ----------
-locals {
-  jenkins_values = templatefile("${path.module}/values.yaml.tmpl", {
-    github_user     = var.github_user
-    github_pat      = var.github_pat        # <<< sensitive flows in here
-    github_repo_url = var.github_repo_url
-  })
-}
-
 resource "helm_release" "jenkins" {
   name             = "jenkins"
   namespace        = "jenkins"
@@ -96,9 +87,12 @@ resource "helm_release" "jenkins" {
   version          = "5.8.27"
   create_namespace = false
 
-  values  = [local.jenkins_values]
-
-  # give Jenkins up to 10 min to become Ready (default is only 5 min)
-  timeout = 600
+  values = [
+    templatefile("${path.module}/values.yaml.tmpl", {
+      github_user     = var.github_user
+      github_pat      = var.github_pat      # << sensitive var flows in here
+      github_repo_url = var.github_repo_url
+    })
+  ]
 }
 
