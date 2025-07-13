@@ -14,16 +14,15 @@ controller:
     limits:   {cpu: "500m", memory: "1Gi"}
     requests: {cpu: "250m", memory: "512Mi"}
 
-  installPlugins:
-    - kubernetes:latest
-    - workflow-aggregator:latest
-    - git:latest
-    - configuration-as-code:latest
-    - credentials-binding:latest
-    - github:latest
-    - docker-plugin:latest
-    - docker-workflow:latest
-    - job-dsl:latest
+  installPlugins:                   # зафіксуємо перевірені версії
+    - kubernetes:4204.v0b_3f307b_22b_6
+    - workflow-aggregator:585.vb_87b_0e919334
+    - git:5.2.1
+    - credentials-binding:677.vdc2ca_8c77817
+    - github:1.38.0
+    - job-dsl:1.87
+    - configuration-as-code:1800.vd5a_e65e0d36b_
+    - configuration-as-code-support:3.2.1
 
   serviceAccount:
     name: jenkins-sa                 # SA is created elsewhere
