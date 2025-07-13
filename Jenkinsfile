@@ -59,7 +59,7 @@ spec:
           withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
               echo $USERNAME
-              git clone https://Sysqwerty:$PASSWORD@github.com/Sysqwerty/devops.git
+              git clone https://$USERNAME:$PASSWORD@github.com/$USERNAME/devops.git
               cd devops
               git checkout lesson-10
               cd charts/django-app
