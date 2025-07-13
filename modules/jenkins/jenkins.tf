@@ -97,8 +97,8 @@ resource "helm_release" "jenkins" {
   create_namespace = false
 
   values  = [local.jenkins_values]
-
-  # give Jenkins up to 10 min to become Ready (default is only 5 min)
-  timeout = 600
+#
+#  # give Jenkins up to 10 min to become Ready (default is only 5 min)
+#  timeout = 600
 }
 

@@ -2,6 +2,9 @@
 # modules/jenkins/values.yaml.tmpl
 # ─────────────────────────────────────────────────────────────
 controller:
+  sidecars:
+    configAutoReload:
+      enabled: true                # потрібен для рендеру JCasC
   admin:                 # keep a simple admin login; change the pwd anytime
     username: admin
     password: admin123
@@ -31,7 +34,7 @@ controller:
   # ──────────────────────────────────────────────
   # Jenkins Configuration-as-Code (JCasC) section
   # ──────────────────────────────────────────────
-  jcasc:
+  JCasC:
     enabled: true
     defaultConfig: true
     configScripts:

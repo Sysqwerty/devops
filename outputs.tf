@@ -93,6 +93,11 @@ output "jenkins_namespace" {
   value       = module.jenkins.jenkins_namespace
 }
 
+output "github_username" {
+  description = "GitHub username"
+  value       = var.github_user
+}
+
 #-------------ArgoCD-----------------
 
 output "argocd_namespace" {
