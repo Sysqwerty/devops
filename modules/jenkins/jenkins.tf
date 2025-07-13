@@ -91,7 +91,20 @@ resource "helm_release" "jenkins" {
     file("${path.module}/values.yaml")
   ]
 
-  atomic  = true              # Helm або ставить chart повністю, або відкочується
+  # --- inject GitHub creds as environment variables ---
+  dynamic "set_sensitive" {
+    for_each = {
+      "controller.env.github_user"     = var.github_user
+      "controller.env.github_pat"      = var.github_pat
+      "controller.env.github_repo_url" = var.github_repo_url
+    }
+    content {
+      name  = set_sensitive.key
+      value = set_sensitive.value
+    }
+  }
+
+  atomic          = true              # Helm або ставить chart повністю, або відкочується
   cleanup_on_fail = true      # при невдалій інсталяції Helm сам прибере release
 }
 
