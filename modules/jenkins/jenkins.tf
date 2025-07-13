@@ -102,8 +102,7 @@ resource "helm_release" "jenkins" {
     { name = "controller.startupProbe.failureThreshold", value = "60" },
     { name = "controller.startupProbe.periodSeconds",    value = "10" },
 
-    # *** new line: pin to LTS ***
-    { name = "controller.image.tag", value = "2.452.4-lts-jdk17" },
+    { name = "controller.image.tag", value = "lts-jdk17" },
   ]
 
   set_sensitive = [
