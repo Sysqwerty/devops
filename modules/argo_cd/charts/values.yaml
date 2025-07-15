@@ -1,7 +1,7 @@
 argocd-apps:
   applications:
     example-app:
-      namespace: agrocd  # namespace у Kubernetes
+      namespace: argocd  # namespace у Kubernetes
       project: default    #  назва Argo CD проєкту
       source: # джерело коду застосунку
         repoURL: https://github.com/Sysqwerty/devops.git
