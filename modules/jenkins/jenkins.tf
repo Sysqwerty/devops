@@ -90,8 +90,5 @@ resource "helm_release" "jenkins" {
   values = [
     file("${path.module}/values.yaml")
   ]
-
-  atomic  = true              # Helm або ставить chart повністю, або відкочується
-  cleanup_on_fail = true      # при невдалій інсталяції Helm сам прибере release
 }
 
