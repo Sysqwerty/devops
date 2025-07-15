@@ -91,20 +91,21 @@ resource "helm_release" "jenkins" {
     file("${path.module}/values.yaml")
   ]
 
-  # --- inject GitHub secrets as container environment variables ---
-  set = [
-    { name = "controller.containerEnv[0].name", value = "github_user" },
-    { name = "controller.containerEnv[1].name", value = "github_pat" },
-    { name = "controller.containerEnv[2].name", value = "github_repo_url" },
-  ]
-
+  # Inject GitHub secrets as environment variables
   set_sensitive = [
-    { name = "controller.containerEnv[0].value", value = var.github_user },
-    { name = "controller.containerEnv[1].value", value = var.github_pat },
-    { name = "controller.containerEnv[2].value", value = var.github_repo_url },
+    {
+      name  = "controller.env.github_user"
+      value = var.github_user
+    },
+    {
+      name  = "controller.env.github_pat"
+      value = var.github_pat
+    },
+    {
+      name  = "controller.env.github_repo_url"
+      value = var.github_repo_url
+    }
   ]
-
-  timeout = 600
 
   atomic          = true # Helm або ставить chart повністю, або відкочується
   cleanup_on_fail = true # при невдалій інсталяції Helm сам прибере release
