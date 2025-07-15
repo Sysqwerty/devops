@@ -94,21 +94,15 @@ resource "helm_release" "jenkins" {
   # --- inject GitHub secrets as container environment variables ---
   set = concat(
     [
-      { name = "controller.containerEnv[0].name", value = "github_user" },
-      { name = "controller.containerEnv[1].name", value = "github_pat" },
-      { name = "controller.containerEnv[2].name", value = "github_repo_url" },
+      { name = "controller.containerEnv[0].name",  value = "github_user" },
+      { name = "controller.containerEnv[1].name",  value = "github_pat" },
+      { name = "controller.containerEnv[2].name",  value = "github_repo_url" },
 
       # --- extend startupProbe ---
-      { name = "controller.startupProbe.failureThreshold", value = "60" }, # 60 × periodSeconds
-      { name = "controller.startupProbe.periodSeconds", value = "10" }    # 600 s total
+      { name = "controller.startupProbe.failureThreshold", value = "60" },   # 60 × periodSeconds
+      { name = "controller.startupProbe.periodSeconds",    value = "10" }    # 600 s total
     ]
   )
-
-  set_sensitive = [
-    { name = "controller.containerEnv[0].value", value = var.github_user },
-    { name = "controller.containerEnv[1].value", value = var.github_pat },
-    { name = "controller.containerEnv[2].value", value = var.github_repo_url },
-  ]
 
   timeout = 600
 
