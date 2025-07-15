@@ -45,7 +45,7 @@ controller:
                       description: GitHub PAT
       seed-job: |
         jobs:
-          - script: >
+          - script: |
               job("seed-job") {
                 description("Job to generate pipeline for Django project")
                 scm {
@@ -59,22 +59,23 @@ controller:
                 }
                 steps {
                   dsl {
-                    text: |
-                      pipelineJob("goit-django-docker") {
+                    text("""\
+                      pipelineJob('goit-django-docker') {
                         definition {
                           cpsScm {
                             scm {
                               git {
                                 remote {
-                                  url("https://github.com/Sysqwerty/devops.git")
-                                  credentials("github-token")
+                                  url('https://github.com/Sysqwerty/devops.git')
+                                  credentials('github-token')
                                 }
-                                branches("*/lesson-10")
+                                branches('*/lesson-10')
                               }
                             }
                           }
                         }
                       }
+                    """.stripIndent())
                   }
                 }
               }
