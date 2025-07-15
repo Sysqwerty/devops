@@ -45,6 +45,17 @@ kubectl get svc -A
 
 Take the LoadBalancer URL from the output of the previous command and open it in your browser.
 
+ARGO_CD creds:
+- username: admin
+- password:
+```sh
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath={.data.password} | base64 -d
+```
+
+Jenkins creds:
+- username: admin
+- password: admin123
+
 ## Destroy the environment
 ```sh
 terraform destroy
