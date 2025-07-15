@@ -46,12 +46,12 @@ controller:
       seed-job: |
         jobs:
           - script: >
-              job('seed-job') {
-                description('Job to generate pipeline for Django project')
+              job("seed-job") {
+                description("Job to generate pipeline for Django project")
                 scm {
                   git {
                     remote {
-                      url('${github_repo_url}')
+                      url("https://github.com/Sysqwerty/devops.git")
                       credentials('github-token')
                     }
                     branches('*/lesson-10')
@@ -66,7 +66,7 @@ controller:
                             scm {
                               git {
                                 remote {
-                                  url("${github_repo_url}")
+                                  url("https://github.com/Sysqwerty/devops.git")
                                   credentials("github-token")
                                 }
                                 branches("*/lesson-10")
