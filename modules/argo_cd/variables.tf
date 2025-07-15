@@ -15,3 +15,21 @@ variable "chart_version" {
   type        = string
   default     = "5.46.4"
 }
+
+variable "rds_username" {
+  description = "Ім'я користувача для RDS"
+  type        = string
+}
+variable "rds_db_name" {
+  description = "Назва бази даних для RDS"
+  type        = string
+}
+variable "rds_password" {
+  description = "Пароль для RDS"
+  type        = string
+  sensitive   = true
+}
+variable "rds_endpoint" {
+  description = "Endpoint для RDS"
+  type        = string
+}
