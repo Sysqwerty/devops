@@ -110,6 +110,8 @@ resource "helm_release" "jenkins" {
     { name = "controller.containerEnv[2].value", value = var.github_repo_url },
   ]
 
+  timeout = 600
+
   atomic          = true # Helm або ставить chart повністю, або відкочується
   cleanup_on_fail = true # при невдалій інсталяції Helm сам прибере release
 }
