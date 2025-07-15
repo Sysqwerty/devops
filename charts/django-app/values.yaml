@@ -15,17 +15,17 @@ config:
   POSTGRES_PORT: 5432
   POSTGRES_DB: django_db
   POSTGRES_USER: django_user
-  POSTGRES_PASSWORD: pass123
+  POSTGRES_PASSWORD: pass12345
 
 postgresql:
   enabled: true
   global:
     postgresql:
       auth:
-        postgresPassword: pass123
+        postgresPassword: pass12345
         username: django_user
         database: django_db
-        password: pass123
+        password: pass12345
   primary:
     persistence:
       size: 2Gi

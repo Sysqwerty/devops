@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.13-alpine
 RUN apk add --no-cache curl
 WORKDIR /app
 COPY requirements.txt .
