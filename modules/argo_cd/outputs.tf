@@ -1,6 +1,6 @@
 output "namespace" {
-  description = "Argo CD namespace"
-  value       = var.namespace
+    description = "Argo CD namespace"
+    value       = var.namespace
 }
 
 output "argo_cd_server_service" {

@@ -1,6 +1,6 @@
 resource "kubernetes_storage_class_v1" "ebs_sc" {
   metadata {
-    name = "ebs-sc"
+    name        = "ebs-sc"
     annotations = {
       "storageclass.kubernetes.io/is-default-class" = "true"
     }
@@ -24,8 +24,8 @@ resource "kubernetes_namespace" "jenkins" {
 
 resource "kubernetes_service_account" "jenkins_sa" {
   metadata {
-    name      = "jenkins-sa"
-    namespace = "jenkins"
+    name        = "jenkins-sa"
+    namespace   = "jenkins"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.jenkins_kaniko_role.arn
     }
@@ -37,14 +37,14 @@ resource "aws_iam_role" "jenkins_kaniko_role" {
   name = "${var.cluster_name}-jenkins-kaniko-role"
 
   assume_role_policy = jsonencode({
-    Version = "2012-10-17",
+    Version   = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
+        Effect    = "Allow",
         Principal = {
           Federated = var.oidc_provider_arn
         },
-        Action = "sts:AssumeRoleWithWebIdentity",
+        Action    = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
             "${replace(var.oidc_provider_url, "https://", "")}:sub" = "system:serviceaccount:jenkins:jenkins-sa"
@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "jenkins_ecr_policy" {
   role = aws_iam_role.jenkins_kaniko_role.id
 
   policy = jsonencode({
-    Version = "2012-10-17",
+    Version   = "2012-10-17",
     Statement = [
       {
         Effect = "Allow",
@@ -91,23 +91,20 @@ resource "helm_release" "jenkins" {
     file("${path.module}/values.yaml")
   ]
 
-  # Inject GitHub secrets as environment variables
-  set_sensitive = [
-    {
-      name  = "controller.env.github_user"
-      value = var.github_user
-    },
-    {
-      name  = "controller.env.github_pat"
-      value = var.github_pat
-    },
-    {
-      name  = "controller.env.github_repo_url"
-      value = var.github_repo_url
+  # --- inject GitHub creds as environment variables ---
+  dynamic "set_sensitive" {
+    for_each = {
+      "controller.env.github_user"     = var.github_user
+      "controller.env.github_pat"      = var.github_pat
+      "controller.env.github_repo_url" = var.github_repo_url
     }
-  ]
+    content {
+      name  = set_sensitive.key
+      value = set_sensitive.value
+    }
+  }
 
-  atomic          = true # Helm або ставить chart повністю, або відкочується
-  cleanup_on_fail = true # при невдалій інсталяції Helm сам прибере release
+  atomic          = true              # Helm або ставить chart повністю, або відкочується
+  cleanup_on_fail = true      # при невдалій інсталяції Helm сам прибере release
 }
 
