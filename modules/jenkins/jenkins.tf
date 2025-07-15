@@ -92,19 +92,17 @@ resource "helm_release" "jenkins" {
   ]
 
   # --- inject GitHub secrets as container environment variables ---
-  set = [
-    # existing env-var entries …………………………………………
-    { name = "controller.containerEnv[0].name",  value = "github_user" },
-    { name = "controller.containerEnv[1].name",  value = "github_pat" },
-    { name = "controller.containerEnv[2].name",  value = "github_repo_url" },
+  set = concat(
+    [
+      { name = "controller.containerEnv[0].name", value = "github_user" },
+      { name = "controller.containerEnv[1].name", value = "github_pat" },
+      { name = "controller.containerEnv[2].name", value = "github_repo_url" },
 
-    # give Jenkins more time to boot (optional but harmless)
-    { name = "controller.startupProbe.failureThreshold", value = "60" },
-    { name = "controller.startupProbe.periodSeconds",    value = "10" },
-
-    # *** new line: pin to LTS ***
-    { name = "controller.image.tag", value = "2.452.4-lts-jdk17" },
-  ]
+      # --- extend startupProbe ---
+      { name = "controller.startupProbe.failureThreshold", value = "60" }, # 60 × periodSeconds
+      { name = "controller.startupProbe.periodSeconds", value = "10" }    # 600 s total
+    ]
+  )
 
   set_sensitive = [
     { name = "controller.containerEnv[0].value", value = var.github_user },
