@@ -35,3 +35,8 @@ variable "github_repo_url" {
   description = "GitHub repository URL"
   type        = string
 }
+
+variable "github_branch" {
+  description = "GitHub branch for Jenkins"
+  type        = string
+}

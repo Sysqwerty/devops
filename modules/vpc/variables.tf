@@ -22,3 +22,8 @@ variable "vpc_name" {
   description = "Ім'я VPC"
   type        = string
 }
+
+variable "name" {
+  description = "The name of the project"
+  type        = string
+}

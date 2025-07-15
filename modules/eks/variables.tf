@@ -5,11 +5,15 @@ variable "region" {
 
 variable "cluster_name" {
   description = "Name of the EKS cluster"
-  default     = "example-eks-cluster-alex"
 }
 
 variable "subnet_ids" {
   description = "List of subnet IDs for the EKS cluster"
+  type        = list(string)
+}
+
+variable "node_subnet_ids" {
+  description = "List of subnet IDs for the EKS node group"
   type        = list(string)
 }
 

@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true                 # Вмикає можливість використання DNS-імен для ресурсів у VPC
 
   tags = {
-    Name = "${var.vpc_name}-vpc"              # Додаємо тег, який включає ім'я VPC
+    Name = var.vpc_name                       # Додаємо тег, який включає ім'я VPC
   }
 }
 
@@ -21,8 +21,7 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name = "${var.vpc_name}-public-subnet-${count.index + 1}"  # Тег з нумерацією підмережі
-    # count.index — це індекс циклу "count", який починається з 0.
-    # ${count.index + 1} додає +1 до індексу, щоб отримати людське позначення (1, 2, 3 замість 0, 1, 2).
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
@@ -36,7 +35,7 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "${var.vpc_name}-private-subnet-${count.index + 1}"  # Тег для підмережі з нумерацією
-    # ${count.index + 1} використовується, щоб нумерація підмереж починалася з 1.
+    "kubernetes.io/cluster/dev" = "shared"
   }
 }
 

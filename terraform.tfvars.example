@@ -1,3 +1,0 @@
-github_user         = "github_username"
-github_pat          = "github_personal_access_token"
-github_repo_url     = "https://github.com/<repo>.git"

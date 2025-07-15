@@ -18,7 +18,12 @@ output "internet_gateway_id" {
   value       = aws_internet_gateway.igw.id
 }
 
-#output "nat_gateway_id" {
-#  description = "ID NAT-інстансу"
-#  value       = aws_nat_gateway.nat.id
-#}
+output "vpc_cidr_block" {
+  description = "CIDR блок VPC"
+  value       = aws_vpc.main.cidr_block
+}
+
+output "nat_instance_id" {
+  description = "ID of the NAT EC2 instance"
+  value       = aws_instance.nat_instance.id
+}

@@ -1,9 +1,11 @@
 resource "helm_release" "argo_cd" {
-  name       = var.name
-  namespace  = var.namespace
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  version    = var.chart_version
+  name         = var.name
+  namespace    = var.namespace
+  repository   = "https://argoproj.github.io/argo-helm"
+  replace      = true
+  force_update = true
+  chart        = "argo-cd"
+  version      = var.chart_version
 
   values = [
     file("${path.module}/values.yaml")
@@ -19,7 +21,7 @@ resource "helm_release" "argo_apps" {
   create_namespace = false
 
   values = [
-    file("${path.module}/values.yaml")
+    file("${path.module}/charts/values.yaml")
   ]
   depends_on = [helm_release.argo_cd]
 }

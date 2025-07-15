@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0.0"
+    }
+  }
+}
+
 resource "kubernetes_storage_class_v1" "ebs_sc" {
   metadata {
     name        = "ebs-sc"
@@ -7,18 +16,11 @@ resource "kubernetes_storage_class_v1" "ebs_sc" {
   }
 
   storage_provisioner = "ebs.csi.aws.com"
-
   reclaim_policy      = "Delete"
   volume_binding_mode = "WaitForFirstConsumer"
 
   parameters = {
     type = "gp3"
-  }
-}
-
-resource "kubernetes_namespace" "jenkins" {
-  metadata {
-    name = "jenkins"
   }
 }
 
@@ -30,7 +32,82 @@ resource "kubernetes_service_account" "jenkins_sa" {
       "eks.amazonaws.com/role-arn" = aws_iam_role.jenkins_kaniko_role.arn
     }
   }
-  depends_on = [kubernetes_namespace.jenkins]
+  depends_on = [
+    helm_release.jenkins
+  ]
+}
+
+locals {
+  file_values = yamldecode(file("${path.module}/values.yaml"))
+  dynamic_scripts = {
+    credentials = <<-EOT
+      credentials:
+        system:
+          domainCredentials:
+            - credentials:
+                - usernamePassword:
+                    scope: GLOBAL
+                    id: github-token
+                    username: ${var.github_user}
+                    password: ${var.github_pat}
+                    description: GitHub PAT
+    EOT
+    "seed-job"  = <<-EOT
+      jobs:
+        - script: >
+            job('seed-job') {
+              description('Job to generate pipeline for Django project')
+              scm {
+                git {
+                  remote {
+                    url("${var.github_repo_url}")
+                    credentials('github-token')
+                  }
+                  branches("*/${var.github_branch}")
+                }
+              }
+              steps {
+                dsl {
+                  text('''
+                    pipelineJob("django-docker") {
+                      definition {
+                        cpsScm {
+                          scriptPath('django/Jenkinsfile')
+                          scm {
+                            git {
+                              remote {
+                                url("${var.github_repo_url}")
+                                credentials("github-token")
+                              }
+                              branches("*/${var.github_branch}")
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ''')
+                }
+              }
+            }
+    EOT
+  }
+  jcasc_block = merge(
+    {
+      configScripts = local.dynamic_scripts
+    }
+  )
+  controller_with_jcasc = merge(
+    try(local.file_values.controller, {}),
+    {
+      JCasC = local.jcasc_block
+    }
+  )
+  all_values = merge(
+    local.file_values,
+    {
+      controller = local.controller_with_jcasc
+    }
+  )
 }
 
 resource "aws_iam_role" "jenkins_kaniko_role" {
@@ -82,16 +159,12 @@ resource "aws_iam_role_policy" "jenkins_ecr_policy" {
 resource "helm_release" "jenkins" {
   name             = "jenkins"
   namespace        = "jenkins"
+  replace          = true
+  force_update     = true
   repository       = "https://charts.jenkins.io"
   chart            = "jenkins"
   version          = "5.8.27"
-  create_namespace = false
-
-  values = [
-    file("${path.module}/values.yaml")
-  ]
-
-  atomic  = true              # Helm або ставить chart повністю, або відкочується
-  cleanup_on_fail = true      # при невдалій інсталяції Helm сам прибере release
+  create_namespace = true
+  values           = [yamlencode(local.all_values)]
 }
 

@@ -1,100 +1,51 @@
-# Steps
+## Prerequisites
 
-!!! Make sure you have installed `Terraform` and `Helm` on your system.
+- AWS CLI installed and configured
+- kubectl installed
+- Helm installed
+- Docker installed
+- Terraform installed
 
-## Terraform
+Optionally, you can add `terraform.tfvars` file to the root directory of the project.
 
-Ініціалізація Terraform:
+This file can contain the following variables:
 
-```bash
+```hcl
+github_repo_url = "https://github.com/<github_username>/<project_name>.git"
+github_branch = "branch_name"
+github_username = "github_username"
+github_token = "pat_token"
+
+rds_password = "password_for_rds"
+rds_publicly_accessible = true
+rds_use_aurora = true
+rds_multi_az = false
+rds_backup_retention_period = "0"
+```
+
+## Steps to set up the environment
+
+For this task, we will use an EKS cluster in the `eu-central-1` region.
+
+```sh
 terraform init
-```
-
-Перевірка змін:
-
-```bash
 terraform plan
-```
-
-Застосування змін:
-
-```bash
 terraform apply
 ```
 
-Завантажити django image на новостворений ECR-репозиторій:
+## Next steps
 
-```bash
-docker tag django_image:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
-docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
+Now that the environment is set up, you can proceed with the rest of the tasks.
+
+Check the services in the cluster:
+```sh
+aws eks update-kubeconfig --region eu-central-1 --name <your_cluster_name>
+kubectl get svc -A
 ```
 
-where `django_image:latest` your django image name that already exists in your local machine.
+Take the LoadBalancer URL from the output of the previous command and open it in your browser.
 
-Replace $AWS_ACCOUNT_ID, $AWS_REGION, and $ECR_REPOSITORY with your own values.
-
-## Helm
-
-Застосування Helm:
-
-```bash
-cd charts/django-app
-helm install my-django .
-```
-
-where `my-django` is your helm chart name.
-
-# Видалення ресурсів:
-
-Kubernetes (PODs, Services, Deployments etc.)
-```bash
-helm uninstall my-django
-```
-
-where `my-django` is your helm chart name.
-
-Terraform (EKS, VPC, ECR etc.)
-
-```bash
+## Destroy the environment
+```sh
 terraform destroy
 ```
-
-# Додаткова інформація:
-
-Якщо ви хочете оновити helm chart:
-
-```bash
-helm upgrade my-django .
-```
-
-Якщо ви хочете оновити terraform:
-
-```bash
-terraform init -upgrade
-terraform plan
-terraform apply
-```
-
-# Опис модулів terraform
-
-## s3-backend
-
-Модуль для створення S3-бакета для збереження стейтів.
-В модулі створюється S3-бакет, налаштовується версіонування та контроль власності.
-Також створюється DynamoDB-таблиця для блокування стейтів.
-
-## vpc
-
-Модуль для створення VPC.
-В модулі встановлена VPC, публічні підмережі, приватні підмережі та зони доступності.
-Також створюється NAT Gateway, Internet Gateway та таблиці роутів для доступу до інтернету.
-
-## ecr
-
-Модуль для створення ECR-репозиторію.
-В модулі створюється репозиторій ECR, налаштовується автоматичне сканування security-вразливостей під час push.
-
-## eks
-
-Модуль для створення EKS-кластера.
-В модулі створюється EKS-кластер, налаштовується автоматичне сканування security-вразливостей під час push.

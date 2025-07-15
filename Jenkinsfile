@@ -60,6 +60,7 @@ spec:
             sh '''
               echo $USERNAME
               git clone https://$USERNAME:$PASSWORD@github.com/Sysqwerty/devops.git
+              set -x
               cd devops
               git checkout lesson-10
               cd charts/django-app

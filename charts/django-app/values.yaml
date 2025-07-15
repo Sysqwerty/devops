@@ -1,8 +1,7 @@
 image:
   repository: 804054839611.dkr.ecr.eu-central-1.amazonaws.com/ecr-repo-18062025214500
   tag: v1.0.4
-  pullPolicy: IfNotPresent
-#  pullPolicy: Always
+  pullPolicy: Always
 
 service:
   type: LoadBalancer
@@ -11,9 +10,22 @@ service:
 ingress:
   enabled: false
 
-#config:
-#  POSTGRES_HOST: db
-#  POSTGRES_PORT: 5432
-#  POSTGRES_DB: django_db
-#  POSTGRES_USER: django_user
-#  POSTGRES_PASSWORD: pass123
+config:
+  POSTGRES_HOST: django-postgresql
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: django_db
+  POSTGRES_USER: django_user
+  POSTGRES_PASSWORD: pass123
+
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        postgresPassword: pass123
+        username: django_user
+        database: django_db
+        password: pass123
+  primary:
+    persistence:
+      size: 2Gi
