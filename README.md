@@ -59,13 +59,6 @@ URL to created resources can be found in LoadBalancer URL.
 Example:
 ![img.png](data/img.png)
 
-ARGO_CD creds:
-- username: admin
-- password:
-```sh
-kubectl get secret --namespace monitoring kube-prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode```
-```
-
 Open Jenkins LoadBalancer URL (username: admin; password: admin123)
 - Run the `seed-job` job (that will create new job `django-docker`)
 - Run the `django-docker` job
