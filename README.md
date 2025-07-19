@@ -12,11 +12,11 @@ This file can contain the following variables:
 
 ```hcl
 github_repo_url = "https://github.com/<github_username>/<project_name>.git"
-github_branch = "branch_name"
+github_branch = "main"
 github_username = "github_username"
 github_token = "pat_token"
 
-rds_password = "password_for_rds"
+rds_password = "password_for_rds_db"
 rds_publicly_accessible = true
 rds_use_aurora = true
 rds_multi_az = false

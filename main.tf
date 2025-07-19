@@ -45,9 +45,9 @@ provider "aws" {
 
 # Підключаємо модуль для S3 та DynamoDB
 #module "s3_backend" {
-#  source      = "./modules/s3-backend"                    # Шлях до модуля
-#  bucket_name = "terraform-state-bucket-18062025214500"   # Ім'я S3-бакета
-#  table_name  = "use_lockfile"                            # Ім'я DynamoDB
+#  source      = "./modules/s3-backend"
+#  bucket_name = var.bucket_name
+#  table_name  = var.table_name
 #}
 
 # Підключаємо модуль для VPC
@@ -83,6 +83,13 @@ module "eks" {
   ]
 }
 
+module "monitoring" {
+  source = "./modules/monitoring"
+  depends_on = [
+    module.eks
+  ]
+}
+
 module "jenkins" {
   source            = "./modules/jenkins"
   github_repo_url   = var.github_repo_url
@@ -101,8 +108,11 @@ module "jenkins" {
 module "argo_cd" {
   source        = "./modules/argo_cd"
   namespace     = "argocd"
-  #  chart_version = "5.46.4"
   chart_version = "8.1.3"
+  rds_db_name   = var.rds_database_name
+  rds_username  = var.rds_username
+  rds_password  = var.rds_password
+  rds_endpoint  = module.rds.rds_endpoint
   depends_on    = [module.eks]
 }
 

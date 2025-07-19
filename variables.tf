@@ -1,3 +1,16 @@
+variable "bucket_name" {
+  description = "The name of the S3 bucket for Terraform state"
+  type        = string
+  default     = "terraform-state-bucket-18062025214500-alex"
+
+}
+
+variable "table_name" {
+  description = "The name of the DynamoDB table for Terraform locks"
+  type        = string
+  default     = "terraform-locks"
+}
+
 variable "name" {
   description = "The name of the project"
   type        = string

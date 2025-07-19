@@ -117,6 +117,10 @@ resource "aws_eks_node_group" "general" {
     role = var.node_group_name
   }
 
+  tags = {
+    Name = var.node_group_name
+  }
+
   # Залежності для створення Node Group
   depends_on = [
     aws_iam_role_policy_attachment.amazon_eks_worker_node_policy,
