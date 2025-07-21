@@ -88,7 +88,7 @@ Second job will:
 ![img2.png](data/img2.png)
 
 Open Argo CD LoadBalancer URL
-- check the status of `example-allr` application (should be `Healthy` and `Synced`)
+- check the status of `example-app` application (should be `Healthy` and `Synced`)
 
 ![img3.png](data/img3.png)
 
