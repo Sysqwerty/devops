@@ -1,9 +1,27 @@
+# Project goal
+
+Build and deploy a complete DevOps infrastructure on AWS using Terraform, including the following components:
+
+- Deploy a Kubernetes cluster (EKS) with CI/CD support
+- Integrate Jenkins to automate build and deployment
+- Install Argo CD for application management
+- Configure a database (RDS or Aurora)
+- Organize a container registry (ECR)
+- Monitoring with Prometheus and Grafana
+
 # Table of contents
 
+- [Technical Details](#technical-details)
 - [Prerequisites](#prerequisites)
-- [Steps to set up the environment](#steps-to-set-up-the-environment)
-- [Next steps](#next-steps)
+- [Set up the environment](#set-up-the-environment)
+- [Deploy application](#deploy-application)
 - [Destroy the environment](#destroy-the-environment)
+
+## Technical Details
+
+`Infrastructure`: AWS using Terraform
+
+`Components`: VPC, EKS, RDS, ECR, Jenkins, Argo CD, Prometheus, Grafana
 
 ## Prerequisites
 
@@ -30,7 +48,7 @@ rds_multi_az = false
 rds_backup_retention_period = "0"
 ```
 
-## Steps to set up the environment
+## Set up the environment
 
 For this task, we will use an EKS cluster in the `eu-central-1` region.
 
@@ -40,7 +58,7 @@ terraform plan
 terraform apply
 ```
 
-## Next steps
+## Deploy application
 
 Now that the environment is set up, you can proceed with the rest of the tasks.
 
